@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link href="{% static "css/mainpage.css" %}" rel="stylesheet" type="text/css">
+    <script src="{%static 'js/main.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="column">
+            <h2>Players online</h2>
+            <ul>
+                {% for user in players %}
+                    <p>{{ user.username }}</p>
+                    <button onclick="invitePlayer({{ user.id }})">Пригласить на игру</button>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>Game</h2>
+            <button id="play-button">Начать новую игру</button>
+
+        </div>
+
+        <div class="column">
+            <h2>Statistic</h2>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% load static %}
+{% load custom_filter%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" href="{% static 'css/board.css' %}" type="text/css">
+    <script src="{% static 'js/checkers.js' %}"></script>
+</head>
+<body>
+<div class="frame">
+    {% for row in board_data %}
+        <div class="row" data-row-index="{{ forloop.counter0 }}">
+            {% for cell_info in row %}
+                <div class="cell {% if cell_info.color == 'white' %}white{% else %}black{% endif %}"
+                     data-row-number="{{ forloop.parentloop.counter0 }}"
+                     data-cell-number="{{ forloop.counter0 }}">
+                    {% if cell_info.checker %}
+                        <span class="checker" data-checker-id="{{ cell_info.checker_id }}">
+                            {{ cell_info.checker }}
+                        </span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+
+
+</body>
+</html>
