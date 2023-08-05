@@ -1,4 +1,3 @@
-
 function getCookie(name) {
     let cookieValue = null;
     const value = '; ' + document.cookie;
@@ -16,40 +15,37 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
-function invitePlayer(playerId) {
-    console.log("Inviting player with id:", playerId)
+function invitePlayer(playerId) {     console.log("Inviting player with id:", playerId)
     const csrftoken = getCookie('csrftoken');
     console.log("CSRF Token: " + csrftoken);
     const url = '/game/invite/';
     console.log("Sending invite to: " + url);
-
-       fetch(url, {
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,
-        },
-        body: JSON.stringify({ 'player_id': playerId }),
-    })
-    .then((response) => {
-        console.log("Response: " + response);
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Ошибка сервера');
-        }
-    })
-    .then((data) => {
-        console.log("Data: " + JSON.stringify(data));
-        if (!data.error) {
-            let socket = new WebSocket ( "ws://" + window.location.href + '/game/board/' + data.game_id + '/') ;
-            window.location.href = '/game/board/' + data.game_id + '/';
-        } else {
-            throw new Error(data.error);
-        }
-    })
-    .catch((error) => {
-        console.error('Ошибка:', error);
-    });
+            },
+        body: JSON.stringify({'player_id': playerId}),
+        })
+        .then((response) => {
+            console.log("Response: " + response);
+            if (response.ok) {
+                return response.json();
+                }
+            else {
+                    throw new Error('Ошибка сервера');
+                }
+            })
+            .then((data) => {
+                console.log("Data: " + JSON.stringify(data));
+                if (!data.error) {
+                    window.location.href = '/game/board/' + data.game_id + '/';
+                } else {
+                    throw new Error(data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
 }
