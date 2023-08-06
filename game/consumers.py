@@ -1,5 +1,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from .views import move_checker
 
 
 class GameConsumer(AsyncWebsocketConsumer):
@@ -27,8 +28,17 @@ class GameConsumer(AsyncWebsocketConsumer):
         command = data.get('command')
 
         if command == 'move':
-            print('move_checker')
+            game_id = data.get('game_id')
+            checker_id = data.get('checker_id')
+            new_row = data.get('new_row')
+            new_column = data.get('new_column')
 
+            await self.move_checker(game_id, checker_id, new_row, new_column)
+
+    async def move_checker(self, game_id, checker_id, new_row, new_column):
+        response_data = move_checker(self.scope['user'], game_id, checker_id, new_row, new_column)
+
+        await self.send(text_data=json.dumps(response_data))
 
 
 

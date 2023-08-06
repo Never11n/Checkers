@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const cells = document.querySelectorAll('.cell');
     let selectedCheckerId = null;
-    let socket = null;
+    let socket = connectWebSocket();
 
     cells.forEach(cell => {
         cell.addEventListener('click', function () {
@@ -104,9 +104,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 'new_row': newRow,
                 'new_column': newColumn
             };
+            console.log(data)
             socket.send(JSON.stringify(data));
         }
 
-    connectWebSocket();
 
 })
